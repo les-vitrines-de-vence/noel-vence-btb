@@ -45,3 +45,31 @@ button,a{touch-action:manipulation}button{font:inherit;cursor:pointer}
 .qr-nav{position:relative;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;padding:32px 12px}
 @media(max-width:430px){.offer{grid-template-columns:28% 1fr;border-radius:18px;min-height:210px}.content{padding:12px 9px;gap:6px}.pill{font-size:9px}.offer h2{font-size:clamp(19px,5.4vw,25px)}.offer p{font-size:12.5px}.btn{padding:11px 13px}.offers{padding:15px 10px 3px}.qr-bottom{min-height:150px}.qr-nav{gap:9px}}
 @media(min-width:600px){.offer{grid-template-columns:27% 1fr}.content{padding:25px}.offers{padding:25px 24px 8px}}
+
+/* QR : l'image allongée inclut un espace libre prévu pour les boutons.
+   Aucun panneau supplémentaire ni collage de décor. */
+.app-qr .qr-image{position:relative;line-height:0;background:#043728}
+.app-qr .qr-image>img{display:block;width:100%;height:auto}
+.app-qr .qr-nav{position:absolute;z-index:2;left:4%;right:4%;bottom:8%;padding:0;display:flex;flex-wrap:nowrap;align-items:center;justify-content:center;gap:clamp(8px,2.5vw,18px);line-height:1.2}
+.app-qr .qr-nav .btn{box-shadow:0 3px 14px rgba(0,0,0,.28);white-space:nowrap;padding:clamp(8px,2.5vw,13px) clamp(12px,3vw,22px);font-size:clamp(12px,3.6vw,18px);border-radius:50px}
+.app-qr .qr-bottom{display:none}
+@media(max-width:360px){.app-qr .qr-nav{left:2%;right:2%;gap:6px}.app-qr .qr-nav .btn{font-size:11px;padding:9px 10px}}
+
+/* Edition 21 octobre : fond original de l'utilisateur pour TOUTE la page promotions */
+.offers-screen{position:relative;min-height: min(180vw,1590px);background:#06422f url('assets/fond-offres.webp') center top/100% 100% no-repeat;display:flex;flex-direction:column;padding-top:clamp(180px,34vw,280px);overflow:hidden}
+.offers-date{position:absolute;top:16.4%;left:20%;right:20%;height:3.1%;display:flex;align-items:center;justify-content:center;color:#503514;font:700 clamp(11px,3.2vw,20px)/1.1 Arial,sans-serif;text-align:center;text-transform:capitalize}
+.offers-area{position:relative;z-index:1;padding:0 3.8% clamp(170px,22vw,310px);flex:1;display:flex;flex-direction:column;justify-content:flex-start}
+.offers-screen .offers{padding:0;background:none}
+.offers-screen .offers:before,.offers-screen .offers:after{display:none}
+.offers-screen .offer{display:grid;grid-template-columns:33% 1fr;overflow:hidden;background:linear-gradient(120deg,#fffaf1,#f9ecd3);border:3px solid #d1a75d;border-radius:24px;min-height:220px;margin:0 0 14px;box-shadow:0 8px 18px #001c16ad}
+.offers-screen .deco{position:relative;min-height:100%;display:flex;align-items:center;justify-content:center;overflow:visible;background:transparent}
+.offers-screen .deco img{display:block;width:120%;height:auto;max-height:260px;object-fit:contain;filter:drop-shadow(0 3px 3px #513d3333)}
+.offers-screen .content{padding:15px 14px 15px 2px}
+.offers-screen .notice{background:#fff4dc;color:#403c2b;border:2px solid #d3b176;border-radius:15px;margin:0 0 12px;padding:10px;font-weight:bold}
+.offers-screen .navigation{padding:8px 8px 10px;background:transparent;gap:9px}
+.offers-screen .navigation:before{display:none}
+.offers-screen .panel{margin:0 0 20px;background:#fff4df;border:3px solid #d8b878}
+.app-qr .qr-nav{bottom:8.7%;left:3%;right:3%}
+.app-qr .qr-image{background:#053f2d}
+@media(max-width:500px){.offers-screen{min-height:195vw;padding-top:36%;background-size:100% 100%}.offers-screen .offers-area{padding-bottom:31%}.offers-screen .offer{grid-template-columns:27% 1fr;min-height:185px;border-radius:17px}.offers-screen .deco img{width:140%;max-height:150px}.offers-screen .content{padding:11px 8px 11px 0}.offers-screen .offer h2{font-size:clamp(19px,4.9vw,26px)}.offers-screen .offer p{font-size:12px}.offers-screen .pill{font-size:8px}.offers-screen .location{font-size:11px}.offers-screen .fine{font-size:10px}.offers-screen .panel{margin:0 0 15px;padding:18px 12px}.offers-screen .navigation .btn{padding:10px 9px;font-size:12px}}
+@media(max-width:360px){.offers-screen .offer{grid-template-columns:22% 1fr}.offers-screen .content{gap:4px}.offers-screen .offers-area{padding-left:2%;padding-right:2%}}

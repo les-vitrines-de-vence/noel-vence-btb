@@ -27,3 +27,13 @@ html,body{min-height:100%;background:#052d23}
 
 /* Ajustements sans retouche des illustrations */
 .mode-caption{padding:12px 16px;color:#fff5d7;text-align:center;font:700 12px/1.5 Arial,sans-serif;background:#082e25}.screen .graphic-heading{display:block}.offer .content{overflow-wrap:anywhere}@media(max-width:400px){.graphic-date{font-size:12px}.offer{border-radius:16px}.offer .content{padding:11px 8px}}
+
+/* BtB V3 : les textes de démonstration disparaissent et les zones vertes
+   résiduelles reprennent les décors de Noël déjà livrés. */
+html,body { background-color:#062c23; background-image:linear-gradient(90deg,rgba(0,31,24,.74),rgba(0,31,24,.38),rgba(0,31,24,.74)),url("assets/deco3.webp"); background-size:cover; background-position:center; background-attachment:fixed; }
+.app,.screen { background-color:#083328; background-image:linear-gradient(rgba(2,35,26,.82),rgba(2,35,26,.82)),url("assets/deco2.webp"); background-size:cover; background-position:center; }
+.screen .offers { background-color:transparent; background-image:linear-gradient(90deg,rgba(4,43,32,.60),rgba(4,43,32,.78)),url("assets/deco1.webp"); background-size:cover; background-position:center; }
+.qr-nav { background-color:#05362a; background-image:linear-gradient(90deg,rgba(0,31,22,.68),rgba(0,31,22,.65)),url("assets/deco3.webp"); background-size:cover; background-position:center; padding:24px 8px 32px; }
+.graphic-footer{background:transparent;}
+.full-image{background:transparent;}
+@media(max-width:759px){html,body{background-image:none;background-color:#062e24}.app{box-shadow:none;}}

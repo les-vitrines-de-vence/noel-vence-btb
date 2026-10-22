@@ -1,9 +1,150 @@
-:root{--gold:#d6aa65;--wine:#790b28;--dark:#063124;--white:#fff9e9}*{box-sizing:border-box}html,body,#application{margin:0;width:100%;height:100%;height:100dvh;overflow:hidden}body{background:#04291f;color:var(--white);font-family:Georgia,serif}button,a{-webkit-tap-highlight-color:transparent;touch-action:manipulation}button{cursor:pointer}.screen{position:fixed;inset:0;inset:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);overflow:hidden;background:#043223}.stage{position:absolute;left:50%;top:50%;width:max(100%,56.25dvh);aspect-ratio:864/1536;transform:translate(-50%,-50%);overflow:hidden}.poster{display:block;width:100%;height:100%;object-fit:fill;pointer-events:none}.image-click{position:absolute;left:15%;top:83%;height:7%;width:70%;border:0;background:transparent;border-radius:55px}.image-click:focus-visible,.nav-btn:focus-visible,.action-mail:focus-visible{outline:3px solid #fff;outline-offset:3px}
-/* Toutes les positions sont définies dans le système de coordonnées du visuel :
-   l'ensemble image + boutons se redimensionne uniformément. Aucun scroll. */
-.offer-page .stage{aspect-ratio:941/1672;width:max(100%,56.2799dvh)}.calendar-date{position:absolute;top:16.25%;height:3.1%;left:19%;right:19%;display:flex;align-items:center;justify-content:center;font:700 clamp(10px,2.5vw,19px)/1.1 Arial,sans-serif;color:#543516;text-transform:capitalize;text-align:center;white-space:nowrap}.card-region{position:absolute;left:7%;right:7%;top:21.3%;height:56%;display:flex;flex-direction:column;gap:1.25%;justify-content:center}.offer-card{display:grid;grid-template-columns:27% 73%;align-items:center;position:relative;min-height:0;flex:1;background:linear-gradient(125deg,#fffaf0 0%,#f9eedb 65%,#f2dcac 100%);border:2px solid #d4ac6c;border-radius:22px;box-shadow:0 8px 22px rgba(0,0,0,.3),inset 0 0 0 2px #fff7e8;color:#173629;overflow:hidden}.card-art{width:120%;max-height:100%;object-fit:contain;filter:drop-shadow(2px 4px 4px rgba(53,30,8,.2))}.card-copy{height:100%;min-width:0;padding:7px 11px 7px 1px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:clamp(2px,.35dvh,6px);font-family:Arial,sans-serif}.offer-type{color:#7e1330;font-size:clamp(7px,1.9vw,12px);font-weight:800;letter-spacing:.02em}.shop{font-weight:700;font-size:clamp(10px,2.7vw,17px)}.addr{font-size:clamp(8px,2vw,12px);color:#695a42}.card-copy h2{margin:2px 0;color:#77122b;font:bold clamp(14px,4.2vw,30px)/1.05 Georgia,serif}.card-copy p{margin:0;font-size:clamp(9px,2.4vw,15px);line-height:1.25}.fake-code,.deadline{color:#66512d;font-size:clamp(8px,2vw,13px);font-weight:700}.action-mail{background:#800b2e;border:2px solid #d9b36e;color:white;text-decoration:none;padding:clamp(5px,.8dvh,9px) clamp(8px,1.7vw,15px);border-radius:40px;display:inline-block;font:700 clamp(10px,2.4vw,15px)/1.2 Arial,sans-serif;margin-top:2px}.offer-actions{position:absolute;left:8%;right:8%;top:79%;height:6%;display:flex;justify-content:center;align-items:center;gap:2%}.nav-btn{border:2px solid #d8b772;border-radius:50px;background:#780b2b;color:#fff;font:700 clamp(11px,2.8vw,20px)/1.15 Arial,sans-serif;padding:clamp(8px,1.2dvh,15px) clamp(12px,2.2vw,20px);white-space:nowrap;box-shadow:0 3px 11px #001e1677}.empty-card{width:100%;padding:7%;background:#fff3df;border:3px solid var(--gold);border-radius:25px;box-shadow:0 8px 22px #001c1688;text-align:center;color:#134030}.empty-card h2{font-size:clamp(22px,5vw,35px);color:#811934}.empty-card p{font:clamp(13px,3.5vw,20px)/1.45 Arial,sans-serif}
-/* Le panneau bordeaux d'origine reste visible, avec son cadeau et son liseré. */
-.ribbon-copy{position:absolute;left:36%;right:9%;top:53.8%;height:9.5%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:3%;color:#fce8bb}.ribbon-copy strong{font:700 clamp(10px,3vw,21px)/1.06 Georgia,serif}.ribbon-copy span{font:clamp(9px,2.3vw,15px)/1.2 Arial,sans-serif}.qr-explain{position:absolute;top:65.5%;height:9%;left:13%;right:13%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:7%;color:#fce7b6}.qr-explain strong{font:bold clamp(15px,3.9vw,26px)/1.1 Georgia,serif}.qr-explain span{font:clamp(10px,2.5vw,16px)/1.3 Arial,sans-serif}.qr-actions{position:absolute;top:91%;height:6%;left:4%;right:4%;display:flex;align-items:center;justify-content:center;gap:2%}
-/* 3 offres : lecture condensée, boutons conservés dans la page fixe. */
-.count-2{top:21%;height:57%}.count-3{top:21%;height:59%;gap:1%}.count-3 .card-copy{gap:2px;padding:4px 8px 4px 0}.count-3 .offer-type{font-size:clamp(7px,1.7vw,10px)}.count-3 .card-copy h2{font-size:clamp(13px,3.5vw,19px)}.count-3 .card-copy p{font-size:clamp(8px,2vw,11px)}.count-3 .addr{font-size:clamp(7px,1.7vw,10px)}.count-3 .fake-code{font-size:clamp(7px,1.7vw,10px)}
-@media(min-width:650px){.stage{width:max(100%,56.25dvh)}.offer-page .stage{width:max(100%,56.2799dvh)}.card-region{left:8%;right:8%}.card-copy p{font-size:clamp(11px,1.3vw,18px)}.card-copy h2{font-size:clamp(17px,2.5vw,34px)}.offer-type{font-size:clamp(9px,1.1vw,15px)}.shop{font-size:clamp(12px,1.5vw,20px)}.addr,.fake-code,.deadline{font-size:clamp(10px,1.05vw,15px)}}
+:root { --wine:#780b2a; --gold:#d7ae69; --cream:#fff7e8; --ink:#173d2d; }
+* { box-sizing:border-box; }
+html,body,#application { width:100%; height:100%; height:100dvh; margin:0; overflow:hidden; }
+html { -webkit-text-size-adjust:100%; }
+body { background:#063729; color:var(--cream); font-family:Georgia,serif; }
+button,a { -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
+button { cursor:pointer; }
+button:focus-visible,a:focus-visible { outline:3px solid #fff1b0; outline-offset:3px; }
+.screen {
+  position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+  overflow:hidden; isolation:isolate; background:#063729;
+}
+/* On a short/wide phone, extend the SAME scene behind the centred original art;
+   the original artwork, captions and CTA never get cropped or distorted. */
+.screen::before {
+  content:""; position:absolute; inset:-24px; z-index:-1;
+  background-image:var(--bg); background-position:center; background-size:cover;
+  filter:blur(9px) brightness(.63); transform:scale(1.05);
+}
+.stage {
+  position:relative; flex:none; width:auto; height:min(100dvh,216.4103vw);
+  aspect-ratio:1170/2532; max-width:100vw; overflow:hidden;
+  container-type:size; background:#043326;
+}
+.poster { display:block; width:100%; height:100%; object-fit:fill; pointer-events:none; user-select:none; }
+.home-hotspot {
+  position:absolute; left:16.8%; width:66.4%; top:83.6%; height:6.5%;
+  border:0; border-radius:100px; background:transparent;
+}
+.nav-button,.copy-code,.email-button {
+  display:inline-flex; align-items:center; justify-content:center; text-align:center;
+  border:1.5px solid #e1b974; border-radius:40px; color:#fff;
+  background:linear-gradient(160deg,#9b1637,#710922 75%);
+  box-shadow:0 2px 6px #09261c70, inset 0 1px 0 #f9d2a057;
+  font-family:Arial,Helvetica,sans-serif; font-weight:700; text-decoration:none;
+  line-height:1.07; white-space:nowrap;
+}
+/* Gold date cartouche is ALREADY drawn on the uploaded offers artwork. */
+.calendar-date {
+  position:absolute; top:16.75%; height:2.95%; left:19%; right:19%;
+  display:flex; align-items:center; justify-content:center;
+  font:700 clamp(9px,3.05cqw,15px)/1 Arial,Helvetica,sans-serif;
+  text-transform:capitalize; color:#62421a; text-align:center; white-space:nowrap;
+}
+.card-region {
+  position:absolute; top:22.2%; left:10.5%; right:10.5%; height:52%;
+  display:flex; flex-direction:column; gap:1.7%; justify-content:center; align-items:stretch;
+}
+.offer-card {
+  flex:1 1 0; min-height:0; position:relative;
+  display:grid; grid-template-columns:27% minmax(0,1fr); align-items:center;
+  overflow:hidden; color:var(--ink);
+  border:2px solid #cca46a; border-radius:clamp(11px,3.6cqw,22px);
+  background:linear-gradient(135deg,#fffaf1 0%,#faf0de 72%,#efdbb5 100%);
+  box-shadow:0 4px 10px #011e1766,0 0 0 1px #fff6e9,inset 0 0 0 2px #fff7e7;
+}
+.offer-card::after {
+  content:"";pointer-events:none;position:absolute;inset:6px;
+  border:1px solid #bf934f45;border-radius:inherit;
+}
+.decoration { display:block; width:109%; max-height:85%; height:auto; object-fit:contain;
+  place-self:center; filter:drop-shadow(2px 3px 2px #69491b40); pointer-events:none; }
+.card-content {
+  min-width:0; height:100%; display:flex; flex-direction:column;
+  justify-content:center; align-items:flex-start; gap:clamp(1px,.42cqh,5px);
+  padding:clamp(4px,1.1cqw,12px) clamp(7px,1.8cqw,12px) clamp(4px,1cqw,12px) 1px;
+  font-family:Arial,Helvetica,sans-serif;
+}
+.offer-tag {
+  color:#8b2743; font-size:clamp(8px,2.45cqw,12px);
+  font-weight:800; letter-spacing:.025em;
+}
+.offer-shop { color:#31452f; font-weight:800; font-size:clamp(10px,3.15cqw,15px); line-height:1.06; }
+.offer-title {
+  margin:0; color:#790c2c; font:700 clamp(14px,4.4cqw,23px)/1.05 Georgia,serif;
+}
+.offer-description,.offer-deadline { margin:0; font-size:clamp(9px,2.6cqw,13px); line-height:1.22; }
+.offer-deadline { font-weight:700; color:#76502c; }
+.card-bottom { width:100%; display:flex; align-items:center; gap:5px; justify-content:space-between; flex-wrap:wrap; }
+.offer-address { font-size:clamp(8px,2.3cqw,11px); line-height:1.1; color:#6c583e; }
+.copy-code,.email-button {
+  border-width:1px; padding:clamp(4px,1.05cqw,7px) clamp(7px,2.0cqw,12px);
+  font-size:clamp(9px,2.6cqw,13px); min-height:25px;
+}
+.card-region.count-1 { top:25%; height:41%; left:9%; right:9%; }
+.count-1 .offer-card { grid-template-columns:33% minmax(0,1fr); }
+.count-1 .decoration { max-height:81%; }
+.count-1 .offer-tag { font-size:clamp(9px,2.5cqw,14px); }
+.count-1 .offer-shop { font-size:clamp(12px,3.6cqw,19px); }
+.count-1 .offer-title { font-size:clamp(17px,5cqw,27px); }
+.count-1 .offer-description,.count-1 .offer-deadline { font-size:clamp(10px,2.8cqw,15px); }
+.card-region.count-2 { top:23.5%; height:46%; gap:2%; }
+.count-2 .offer-card { grid-template-columns:27% minmax(0,1fr); }
+.card-region.count-3 { top:21.7%; height:53%; gap:1.25%; }
+.count-3 .offer-card { grid-template-columns:24% minmax(0,1fr); border-width:1.5px; border-radius:11px; }
+.count-3 .decoration { width:113%; max-height:80%; }
+.count-3 .card-content { gap:clamp(1px,.23cqh,2px); padding:3px 6px 3px 0; }
+.count-3 .offer-tag { font-size:clamp(7px,1.95cqw,9px); }
+.count-3 .offer-shop { font-size:clamp(8.7px,2.6cqw,11px); }
+.count-3 .offer-title { font-size:clamp(12px,3.38cqw,15px); }
+.count-3 .offer-description { font-size:clamp(8px,2.15cqw,10px); line-height:1.12; }
+.count-3 .offer-address { font-size:clamp(7px,2cqw,9px); }
+.count-3 .copy-code { font-size:clamp(8px,2.0cqw,10px); min-height:18px; padding:3px 6px; }
+.count-3 .card-bottom { gap:2px; }
+.card-region.count-0 { top:27%;height:36%;left:11%;right:11%; }
+.empty-message {
+  width:100%; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:clamp(8px,2cqh,17px); padding:5%; text-align:center;
+  background:linear-gradient(145deg,#fffaf0,#f6e7cc);color:#163c2f;
+  border:2px solid var(--gold); border-radius:18px;
+  box-shadow:0 5px 14px #001c1666;
+  font:clamp(11px,3cqw,15px)/1.32 Arial,sans-serif;
+}
+.empty-message strong { color:#7d1532; font:700 clamp(20px,5cqw,26px) Georgia,serif; }
+.offer-navigation { position:absolute; top:77.5%; height:5.8%; left:7%; right:7%; display:flex;
+  justify-content:center; align-items:center; gap:2.5%; }
+.offer-navigation .nav-button,.qr-navigation .nav-button { padding:clamp(6px,1.8cqw,10px) clamp(9px,2.5cqw,15px);
+  font-size:clamp(11px,3.1cqw,15px); min-height:36px; }
+/* New full-size QR artwork kept 1:1; disclaimer is located only in its free lower area. */
+.btb-disclaimer {
+  position:absolute; top:86.55%; left:9%; right:9%; height:4.4%;
+  display:flex; justify-content:center; flex-direction:column; align-items:center;
+  text-align:center; color:#f9dfaa; gap:1px;
+  text-shadow:0 1px 3px #02160d9c;
+}
+.btb-disclaimer strong { font:700 clamp(10px,3cqw,14px)/1.02 Georgia,serif; }
+.btb-disclaimer span { font:clamp(8px,2.15cqw,11px)/1.07 Arial,Helvetica,sans-serif; }
+.qr-navigation { position:absolute; top:92%; left:6%; right:6%; height:5.9%; display:flex;
+  justify-content:center; gap:3%; align-items:center; }
+.visually-hidden { position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
+/* For unusually low available browser heights, prioritise navigation and readable labels. */
+@container (max-height: 610px) {
+ .card-region.count-3 { top:21.5%; height:54%; }
+ .offer-navigation { top:78%; }
+}
+/* Premium treatment for the featured daily offer: a compact, better-proportioned panel. */
+.card-region.count-1 { top:27%; height:32.5%; }
+.count-1 .offer-card { grid-template-columns:33% minmax(0,1fr); border-width:2.5px; }
+.count-1 .decoration { width:125%; max-height:94%; }
+.count-1 .card-content { gap:clamp(4px,.75cqh,9px); }
+.count-1 .offer-title { font-size:clamp(18px,5.6cqw,28px); }
+.count-1 .offer-shop { font-size:clamp(12px,3.4cqw,18px); }
+.count-1 .offer-description,.count-1 .offer-deadline { font-size:clamp(10px,2.75cqw,14px); }
+.count-1 .card-bottom { gap:6px; }
+.count-1 .email-button { font-size:clamp(11px,2.9cqw,15px); padding:8px 13px; }
+.count-1 .offer-tag { font-size:clamp(9px,2.5cqw,13px); }
+.count-1 + .offer-navigation { top:66.5%; }
+/* Delicate internal divider, referencing the printed gold motif of the supplied examples. */
+.offer-card.commerciale .offer-shop { border-bottom:1px solid #cb9a5590; padding-bottom:4px; }

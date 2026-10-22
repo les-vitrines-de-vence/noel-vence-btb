@@ -1,26 +1,140 @@
-(()=>{'use strict';
-const root=document.getElementById('application');
-const image=n=>'./assets/'+n+'.webp';
-const params=new URLSearchParams(location.search);
-// Aperçu réservé au contrôle technique, sans incidence sur la date réelle du site.
-const testDate=params.get('apercu')==='1'&&/^2026-10-(22|23|24|25)$/.test(params.get('date')||'')?params.get('date'):null;
-function parisDate(){const p=Object.fromEntries(new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Paris',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date()).map(v=>[v.type,v.value]));return `${p.year}-${p.month}-${p.day}`;}
-const date=testDate||parisDate();
-const state={page:location.hash==='#offres'?'offres':location.hash==='#qr'?'qr':'accueil'};
-const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const mailto='mailto:papeterie.multiservices@yahoo.fr?subject='+encodeURIComponent('Demande de devis — Noël en avance — Offre BtB -50 %')+'&body='+encodeURIComponent('Bonjour,\n\nJe suis membre BtB et souhaite recevoir un devis dans le cadre de votre offre Noël en avance.\n\nEntreprise :\nNom :\nTéléphone :\nMon projet :\n\nCordialement,');
-const fictive=(i,d)=>({shop:['L’Atelier des Étoiles','La Maison des Cadeaux','Les Lumières de Vence'][i],address:'Commerce fictif — Vence',title:['Une surprise de Noël','Un cadeau à découvrir','La magie de Noël'][i],body:'Exemple de présentation d’une offre quotidienne. Aucun avantage commercial réel.',fake:true,code:'DEMO'+d.replaceAll('-','')+(i+1)});
-const real={shop:'Papeterie Multi-Services',address:'11 avenue Marcellin Maurel — Vence',title:'Noël en avance : −50 %',body:'Sur l’ensemble de la prestation proposée sur le devis. Offre réservée aux membres BtB après vérification de leur adhésion, non cumulable avec d’autres promotions.',fake:false};
-function offersFor(d){if(d==='2026-10-22')return [fictive(0,d)];if(d==='2026-10-23')return [real];if(d==='2026-10-24')return [fictive(0,d),fictive(1,d)];if(d==='2026-10-25')return [fictive(0,d),fictive(1,d),fictive(2,d)];return []}
-function go(page){state.page=page;history.replaceState(null,'',location.pathname+location.search+'#'+page);draw();}
-function stage(content,kind){return `<section class="screen ${kind}"><div class="stage">${content}</div></section>`}
-function card(o,i){return `<article class="offer-card"><img class="card-art" src="${image('deco'+(i%3+1))}" alt=""/><div class="card-copy"><div class="offer-type">${o.fake?'OFFRE FICTIVE · DÉMONSTRATION':'OFFRE EXCLUSIVE MEMBRES BtB'}</div><div class="shop">${esc(o.shop)}</div><div class="addr">${esc(o.address)}</div><h2>${esc(o.title)}</h2><p>${esc(o.body)}</p>${o.fake?`<span class="fake-code">Code fictif : ${esc(o.code)}</span>`:`<div class="deadline">Demande de devis avant le 31 décembre 2026</div><a class="action-mail" href="${mailto}">Demander mon devis</a>`}</div></article>`}
-function draw(){const offers=offersFor(date);
-if(state.page==='accueil'){root.innerHTML=stage(`<img class="poster" src="${image('accueil')}" alt="Les Vitrines de Vence — Noël vous réserve des surprises"/><button class="image-click" id="toOffers" aria-label="Voir les offres du jour"></button>`,'home');root.querySelector('#toOffers').onclick=()=>go('offres');return;}
-if(state.page==='qr'){root.innerHTML=stage(`<img class="poster" src="${image('qr')}" alt="Un QR, un rendez-vous chaque jour : présentation du jeu des commerçants"/><div class="ribbon-copy"><strong>Une application, des offres à découvrir</strong><span>Découvrez le fonctionnement du jeu de Noël.</span></div><div class="qr-explain"><strong>Présentation spéciale BtB</strong><span>Pour les membres BtB, la remise de 50 % sur devis reste accessible jusqu’au 31 décembre 2026.</span></div><nav class="qr-actions"><button class="nav-btn" id="back">Retour aux offres</button><button class="nav-btn" id="home">Accueil</button></nav>`,'qr');root.querySelector('#back').onclick=()=>go('offres');root.querySelector('#home').onclick=()=>go('accueil');return;}
-let dateLabel=new Intl.DateTimeFormat('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric',timeZone:'Europe/Paris'}).format(new Date(date+'T12:00:00Z'));
-const fallback=`<article class="empty-card"><h2>Les surprises arrivent !</h2><p>Le programme BtB se déroule du 22 au 25 octobre 2026.</p><p>La remise de 50 % est réservée aux membres BtB, sur demande de devis jusqu’au 31 décembre 2026.</p><a href="${mailto}" class="action-mail">Demander mon devis</a></article>`;
-root.innerHTML=stage(`<img class="poster" src="${image('fond-offres')}" alt="Décoration de Noël — Les Vitrines de Vence, vos offres du jour"/><div class="calendar-date">${esc(dateLabel)}</div><section class="card-region count-${offers.length}">${offers.length?offers.map(card).join(''):fallback}</section><nav class="offer-actions"><button class="nav-btn" id="home">Accueil</button><button class="nav-btn" id="qr">Comment ça marche ?</button></nav>`,'offer-page');root.querySelector('#home').onclick=()=>go('accueil');root.querySelector('#qr').onclick=()=>go('qr');
-}
-window.addEventListener('hashchange',()=>{const p=location.hash.slice(1);state.page=['accueil','offres','qr'].includes(p)?p:'accueil';draw()});draw();
+(() => {
+  'use strict';
+  const root = document.getElementById('application');
+  const asset = name => './assets/' + name + '.webp';
+  const params = new URLSearchParams(location.search);
+
+  // Aperçu technique utilisable pendant le contrôle, mais jamais pour modifier la date réelle.
+  const preview = params.get('apercu') === '1' && /^(2026-10-(22|23|24|25)|2026-12-25)$/.test(params.get('date') || '')
+    ? params.get('date') : null;
+  function parisToday() {
+    const parts = Object.fromEntries(new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Europe/Paris', year: 'numeric', month: '2-digit', day: '2-digit'
+    }).formatToParts(new Date()).map(part => [part.type, part.value]));
+    return `${parts.year}-${parts.month}-${parts.day}`;
+  }
+  const day = preview || parisToday();
+  const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+  const mailto = 'mailto:papeterie.multiservices@yahoo.fr?subject=' +
+    encodeURIComponent('Demande de devis — Noël en avance — Offre BtB -50 %') +
+    '&body=' + encodeURIComponent(
+      'Bonjour,\n\nJe suis membre BtB et souhaite recevoir un devis pour la création de mon site internet.\n\nEntreprise :\nNom :\nTéléphone :\nMon projet :\n\nCordialement,'
+    );
+  const demonstration = (shop, address, title, code) => ({
+    shop, address, title, code,
+    description: 'Simulation uniquement : aucune remise réelle.', fictive: true
+  });
+  const bernard = demonstration('L’ARTISANAT AVANCE', '31 av. Marcellin Maurel · Vence', '–100 % sur ce qui n’est pas en magasin !', 'BERNARD100');
+  const cadeau = demonstration('La Maison des Cadeaux', 'Commerce fictif · Vence', 'Un cadeau surprise de Noël', 'CADEAU24');
+  const lumieres = demonstration('Les Lumières de Vence', 'Commerce fictif · Vence', 'Une surprise lumineuse', 'LUMIERE25');
+  const fleurs = demonstration('L’Atelier des Étoiles', 'Commerce fictif · Vence', 'Une attention festive', 'ETOILE25');
+  const real = {
+    shop: 'Papeterie Multi-Services', address: '11 avenue Marcellin Maurel · Vence',
+    title: '–50 % sur votre site internet',
+    description: 'Sur l’ensemble de la prestation proposée sur le devis. Réservé aux membres BtB, sous réserve de vérification de l’adhésion ; non cumulable.',
+    deadline: 'Demande de devis au plus tard le 31 décembre 2026.', fictive: false
+  };
+  const dayOffers = {
+    '2026-10-22': [bernard],
+    '2026-10-23': [real],
+    '2026-10-24': [cadeau, lumieres],
+    '2026-10-25': [bernard, cadeau, fleurs]
+  };
+  const safePages = new Set(['accueil', 'offres', 'qr', 'noel']);
+  let page = safePages.has(location.hash.slice(1)) ? location.hash.slice(1) : 'accueil';
+
+  function layout(kind, background, content) {
+    return `<section class="screen ${kind}" style="--bg:url('${asset(background)}')">
+      <div class="stage"><img class="poster" src="${asset(background)}" alt="" aria-hidden="true" draggable="false">${content}</div>
+    </section>`;
+  }
+  function navigate(destination) {
+    page = destination;
+    history.replaceState(null, '', location.pathname + location.search + '#' + destination);
+    render();
+  }
+  function navButton(destination, label, extraClass='') {
+    return `<button type="button" data-go="${destination}" class="nav-button ${extraClass}">${label}</button>`;
+  }
+  function offerCard(offer, index, count) {
+    const image = asset('deco' + (index % 3 + 1));
+    const type = offer.fictive ? 'DÉMONSTRATION · OFFRE FICTIVE' : 'EXCLUSIVITÉ MEMBRES BtB';
+    const action = offer.fictive
+      ? `<button type="button" class="copy-code" data-code="${esc(offer.code)}" title="Copier un code fictif">Copier ${esc(offer.code)}</button>`
+      : `<a href="${mailto}" class="email-button" title="Demander un devis par e-mail">Demander mon devis</a>`;
+    return `<article class="offer-card ${offer.fictive ? 'fictive' : 'commerciale'}">
+      <img class="decoration" src="${image}" alt="" aria-hidden="true" draggable="false">
+      <div class="card-content">
+        <span class="offer-tag">${type}</span>
+        <div class="offer-shop">${esc(offer.shop)}</div>
+        <h2 class="offer-title">${esc(offer.title)}</h2>
+        <p class="offer-description">${esc(offer.description)}</p>
+        ${offer.deadline ? `<p class="offer-deadline">${esc(offer.deadline)}</p>` : ''}
+        <div class="card-bottom"><span class="offer-address">${esc(offer.address)}</span>${action}</div>
+      </div>
+    </article>`;
+  }
+  function render() {
+    if (page === 'noel' || day === '2026-12-25') {
+      root.innerHTML = layout('christmas-screen', 'noel', '');
+      return;
+    }
+    if (page === 'accueil') {
+      root.innerHTML = layout('home-screen', 'accueil',
+        '<button type="button" class="home-hotspot" data-go="offres" aria-label="Voir les offres du jour"></button>');
+      return;
+    }
+    if (page === 'qr') {
+      root.innerHTML = layout('qr-screen', 'qr', `
+        <div class="btb-disclaimer" aria-label="Précision sur la promotion BtB">
+          <strong>Offre BtB : –50 %</strong><span>Devis à demander avant le 31 décembre 2026</span>
+        </div>
+        <nav class="qr-navigation" aria-label="Navigation">${navButton('offres', 'Retour aux offres')}${navButton('accueil', 'Accueil')}</nav>
+      `);
+      return;
+    }
+    const offers = dayOffers[day] || [];
+    const dateLabel = new Intl.DateTimeFormat('fr-FR', {
+      timeZone: 'Europe/Paris', weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+    }).format(new Date(day + 'T12:00:00Z'));
+    const cards = offers.length ? offers.map((offer, i) => offerCard(offer, i, offers.length)).join('') : `
+      <article class="empty-message">
+        <strong>Les surprises arrivent !</strong>
+        <span>Présentation du 22 au 25 octobre 2026.</span>
+        <span>La remise BtB reste valable sur demande de devis jusqu’au 31 décembre.</span>
+        <a class="email-button" href="${mailto}">Demander mon devis</a>
+      </article>`;
+    root.innerHTML = layout('offers-screen', 'fond-offres', `
+      <div class="calendar-date">${esc(dateLabel)}</div>
+      <section class="card-region count-${offers.length}" aria-label="Offres du jour">${cards}</section>
+      <nav class="offer-navigation" aria-label="Navigation">${navButton('accueil', 'Accueil')}${navButton('qr', 'Comment ça marche ?')}</nav>
+      <span id="announce" class="visually-hidden" role="status"></span>
+    `);
+  }
+  root.addEventListener('click', async event => {
+    const nav = event.target.closest('[data-go]');
+    if (nav) { navigate(nav.dataset.go); return; }
+    const copy = event.target.closest('[data-code]');
+    if (copy) {
+      const code = copy.dataset.code;
+      try {
+        if (navigator.clipboard && window.isSecureContext) await navigator.clipboard.writeText(code);
+        else {
+          const input = document.createElement('textarea');input.value=code;
+          input.style.position='fixed'; input.style.opacity='0'; document.body.append(input);
+          input.select(); if (!document.execCommand('copy')) throw new Error('Copie indisponible'); input.remove();
+        }
+        const previous=copy.textContent;copy.textContent='Copié !';
+        document.getElementById('announce')?.replaceChildren(document.createTextNode('Code fictif copié'));
+        setTimeout(() => { if (copy.isConnected) copy.textContent=previous; }, 1600);
+      } catch { copy.textContent='Code : ' + code; }
+    }
+  });
+  window.addEventListener('hashchange', () => {
+    const next = location.hash.slice(1);
+    page = safePages.has(next) ? next : 'accueil';render();
+  });
+  render();
 })();

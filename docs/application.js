@@ -87,9 +87,17 @@
       return;
     }
     if (page === 'qr') {
-      root.innerHTML = layout('qr-screen', 'qr', `
-        <div class="btb-disclaimer" aria-label="Précision sur la promotion BtB">
-          <strong>Offre BtB : –50 %</strong><span>Devis à demander avant le 31 décembre 2026</span>
+      // Version de présentation BtB : visuel original fourni avec cartouche libre.
+      // Les mentions commerciales sont des éléments HTML, pas du texte gravé dans l’image.
+      root.innerHTML = layout('qr-screen', 'qr-presentation', `
+        <div class="qr-promo-ribbon" aria-label="Un QR code, plusieurs promotions">
+          <strong>Un seul QR code, des offres renouvelées chaque jour !</strong>
+          <span>Vos clients scannent le même QR et découvrent une nouvelle surprise.</span>
+        </div>
+        <div class="qr-merchant-message" aria-label="Exemple d’utilisation pour les commerçants">
+          <strong>Et pour votre commerce ?</strong>
+          <span>Une seule affiche sur votre vitrine ou vos flyers. Une nouvelle promotion chaque jour.</span>
+          <small>Une démonstration de Papeterie Multi-Services.</small>
         </div>
         <nav class="qr-navigation" aria-label="Navigation">${navButton('offres', 'Retour aux offres')}${navButton('accueil', 'Accueil')}</nav>
       `);
@@ -106,12 +114,21 @@
         <span>La remise BtB reste valable sur demande de devis jusqu’au 31 décembre.</span>
         <a class="email-button" href="${mailto}">Demander mon devis</a>
       </article>`;
-    root.innerHTML = layout('offers-screen', 'fond-offres', `
-      <div class="calendar-date">${esc(dateLabel)}</div>
-      <section class="card-region count-${offers.length}" aria-label="Offres du jour">${cards}</section>
-      <nav class="offer-navigation" aria-label="Navigation">${navButton('accueil', 'Accueil')}${navButton('qr', 'Comment ça marche ?')}</nav>
-      <span id="announce" class="visually-hidden" role="status"></span>
-    `);
+    // Composition fluide : comme une page mobile, l'affichage s'adapte aux contenus.
+    // Le décor fourni reste utilisé pour l'en-tête et la signature, sans étirement.
+    root.innerHTML = `<section class="screen offers-screen" style="--bg:url('${asset('fond-offres')}')">
+      <div class="fluid-sheet">
+        <header class="offers-hero" aria-label="Les Vitrines de Vence — Vos offres du jour">
+          <span class="calendar-date-fluid">${esc(dateLabel)}</span>
+        </header>
+        <div class="offers-main">
+          <section class="fluid-cards count-${offers.length}" aria-label="Offres du jour">${cards}</section>
+          <nav class="fluid-navigation" aria-label="Navigation">${navButton('accueil', 'Accueil')}${navButton('qr', 'Comment ça marche ?')}</nav>
+          <span id="announce" class="visually-hidden" role="status"></span>
+        </div>
+        <footer class="offers-signature" aria-label="Application conçue et réalisée par Papeterie Multi-Services"></footer>
+      </div>
+    </section>`;
   }
   root.addEventListener('click', async event => {
     const nav = event.target.closest('[data-go]');

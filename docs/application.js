@@ -114,21 +114,14 @@
         <span>La remise BtB reste valable sur demande de devis jusqu’au 31 décembre.</span>
         <a class="email-button" href="${mailto}">Demander mon devis</a>
       </article>`;
-    // Composition fluide : comme une page mobile, l'affichage s'adapte aux contenus.
-    // Le décor fourni reste utilisé pour l'en-tête et la signature, sans étirement.
-    root.innerHTML = `<section class="screen offers-screen" style="--bg:url('${asset('fond-offres')}')">
-      <div class="fluid-sheet">
-        <header class="offers-hero" aria-label="Les Vitrines de Vence — Vos offres du jour">
-          <span class="calendar-date-fluid">${esc(dateLabel)}</span>
-        </header>
-        <div class="offers-main">
-          <section class="fluid-cards count-${offers.length}" aria-label="Offres du jour">${cards}</section>
-          <nav class="fluid-navigation" aria-label="Navigation">${navButton('accueil', 'Accueil')}${navButton('qr', 'Comment ça marche ?')}</nav>
-          <span id="announce" class="visually-hidden" role="status"></span>
-        </div>
-        <footer class="offers-signature" aria-label="Application conçue et réalisée par Papeterie Multi-Services"></footer>
-      </div>
-    </section>`;
+    // Une seule scène IMPRIMÉE par écran. Aucun scroll ni recalcul du fond.
+    // Cartes et liens sont posés dans les zones réservées du fond fourni.
+    root.innerHTML = layout('offers-screen', 'fond-offres', `
+      <div class="calendar-date">${esc(dateLabel)}</div>
+      <section class="card-region count-${offers.length}" aria-label="Offres du jour">${cards}</section>
+      <nav class="offer-navigation" aria-label="Navigation">${navButton('accueil','Accueil')}${navButton('qr','Comment ça marche ?')}</nav>
+      <span id="announce" class="visually-hidden" role="status"></span>
+    `);
   }
   root.addEventListener('click', async event => {
     const nav = event.target.closest('[data-go]');

@@ -1,0 +1,27 @@
+{
+  "id": "/noel-vence-btb/",
+  "name": "Noël en avance – Présentation BtB",
+  "short_name": "Noël BtB",
+  "description": "Présentation des offres Noël en avance de Papeterie Multi-Services pour les membres BtB.",
+  "lang": "fr",
+  "start_url": "./#accueil",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#063729",
+  "theme_color": "#063729",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "./app-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./app-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

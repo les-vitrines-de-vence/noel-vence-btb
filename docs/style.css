@@ -1,0 +1,317 @@
+:root { --wine:#780b2a; --gold:#d7ae69; --cream:#fff7e8; --ink:#173d2d; }
+* { box-sizing:border-box; }
+html,body,#application { width:100%; height:100%; height:100dvh; margin:0; overflow:hidden; }
+html { -webkit-text-size-adjust:100%; }
+body { background:#063729; color:var(--cream); font-family:Georgia,serif; }
+button,a { -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
+button { cursor:pointer; }
+button:focus-visible,a:focus-visible { outline:3px solid #fff1b0; outline-offset:3px; }
+.screen {
+  position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+  overflow:hidden; isolation:isolate; background:#063729;
+}
+/* On a short/wide phone, extend the SAME scene behind the centred original art;
+   the original artwork, captions and CTA never get cropped or distorted. */
+.screen::before {
+  content:""; position:absolute; inset:-24px; z-index:-1;
+  background-image:var(--bg); background-position:center; background-size:cover;
+  filter:blur(9px) brightness(.63); transform:scale(1.05);
+}
+.stage {
+  position:relative; flex:none; width:auto; height:min(100dvh,216.4103vw);
+  aspect-ratio:1170/2532; max-width:100vw; overflow:hidden;
+  container-type:size; background:#043326;
+}
+.poster { display:block; width:100%; height:100%; object-fit:fill; pointer-events:none; user-select:none; }
+.home-hotspot {
+  position:absolute; left:16.8%; width:66.4%; top:83.6%; height:6.5%;
+  border:0; border-radius:100px; background:transparent;
+}
+.nav-button,.copy-code,.email-button {
+  display:inline-flex; align-items:center; justify-content:center; text-align:center;
+  border:1.5px solid #e1b974; border-radius:40px; color:#fff;
+  background:linear-gradient(160deg,#9b1637,#710922 75%);
+  box-shadow:0 2px 6px #09261c70, inset 0 1px 0 #f9d2a057;
+  font-family:Arial,Helvetica,sans-serif; font-weight:700; text-decoration:none;
+  line-height:1.07; white-space:nowrap;
+}
+/* Gold date cartouche is ALREADY drawn on the uploaded offers artwork. */
+.calendar-date {
+  position:absolute; top:16.75%; height:2.95%; left:19%; right:19%;
+  display:flex; align-items:center; justify-content:center;
+  font:700 clamp(9px,3.05cqw,15px)/1 Arial,Helvetica,sans-serif;
+  text-transform:capitalize; color:#62421a; text-align:center; white-space:nowrap;
+}
+.card-region {
+  position:absolute; top:22.2%; left:10.5%; right:10.5%; height:52%;
+  display:flex; flex-direction:column; gap:1.7%; justify-content:center; align-items:stretch;
+}
+.offer-card {
+  flex:1 1 0; min-height:0; position:relative;
+  display:grid; grid-template-columns:27% minmax(0,1fr); align-items:center;
+  overflow:hidden; color:var(--ink);
+  border:2px solid #cca46a; border-radius:clamp(11px,3.6cqw,22px);
+  background:linear-gradient(135deg,#fffaf1 0%,#faf0de 72%,#efdbb5 100%);
+  box-shadow:0 4px 10px #011e1766,0 0 0 1px #fff6e9,inset 0 0 0 2px #fff7e7;
+}
+.offer-card::after {
+  content:"";pointer-events:none;position:absolute;inset:6px;
+  border:1px solid #bf934f45;border-radius:inherit;
+}
+.decoration { display:block; width:109%; max-height:85%; height:auto; object-fit:contain;
+  place-self:center; filter:drop-shadow(2px 3px 2px #69491b40); pointer-events:none; }
+.card-content {
+  min-width:0; height:100%; display:flex; flex-direction:column;
+  justify-content:center; align-items:flex-start; gap:clamp(1px,.42cqh,5px);
+  padding:clamp(4px,1.1cqw,12px) clamp(7px,1.8cqw,12px) clamp(4px,1cqw,12px) 1px;
+  font-family:Arial,Helvetica,sans-serif;
+}
+.offer-tag {
+  color:#8b2743; font-size:clamp(8px,2.45cqw,12px);
+  font-weight:800; letter-spacing:.025em;
+}
+.offer-shop { color:#31452f; font-weight:800; font-size:clamp(10px,3.15cqw,15px); line-height:1.06; }
+.offer-title {
+  margin:0; color:#790c2c; font:700 clamp(14px,4.4cqw,23px)/1.05 Georgia,serif;
+}
+.offer-description,.offer-deadline { margin:0; font-size:clamp(9px,2.6cqw,13px); line-height:1.22; }
+.offer-deadline { font-weight:700; color:#76502c; }
+.card-bottom { width:100%; display:flex; align-items:center; gap:5px; justify-content:space-between; flex-wrap:wrap; }
+.offer-address { font-size:clamp(8px,2.3cqw,11px); line-height:1.1; color:#6c583e; }
+.copy-code,.email-button {
+  border-width:1px; padding:clamp(4px,1.05cqw,7px) clamp(7px,2.0cqw,12px);
+  font-size:clamp(9px,2.6cqw,13px); min-height:25px;
+}
+.card-region.count-1 { top:25%; height:41%; left:9%; right:9%; }
+.count-1 .offer-card { grid-template-columns:33% minmax(0,1fr); }
+.count-1 .decoration { max-height:81%; }
+.count-1 .offer-tag { font-size:clamp(9px,2.5cqw,14px); }
+.count-1 .offer-shop { font-size:clamp(12px,3.6cqw,19px); }
+.count-1 .offer-title { font-size:clamp(17px,5cqw,27px); }
+.count-1 .offer-description,.count-1 .offer-deadline { font-size:clamp(10px,2.8cqw,15px); }
+.card-region.count-2 { top:23.5%; height:46%; gap:2%; }
+.count-2 .offer-card { grid-template-columns:27% minmax(0,1fr); }
+.card-region.count-3 { top:21.7%; height:53%; gap:1.25%; }
+.count-3 .offer-card { grid-template-columns:24% minmax(0,1fr); border-width:1.5px; border-radius:11px; }
+.count-3 .decoration { width:113%; max-height:80%; }
+.count-3 .card-content { gap:clamp(1px,.23cqh,2px); padding:3px 6px 3px 0; }
+.count-3 .offer-tag { font-size:clamp(7px,1.95cqw,9px); }
+.count-3 .offer-shop { font-size:clamp(8.7px,2.6cqw,11px); }
+.count-3 .offer-title { font-size:clamp(12px,3.38cqw,15px); }
+.count-3 .offer-description { font-size:clamp(8px,2.15cqw,10px); line-height:1.12; }
+.count-3 .offer-address { font-size:clamp(7px,2cqw,9px); }
+.count-3 .copy-code { font-size:clamp(8px,2.0cqw,10px); min-height:18px; padding:3px 6px; }
+.count-3 .card-bottom { gap:2px; }
+.card-region.count-0 { top:27%;height:36%;left:11%;right:11%; }
+.empty-message {
+  width:100%; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:clamp(8px,2cqh,17px); padding:5%; text-align:center;
+  background:linear-gradient(145deg,#fffaf0,#f6e7cc);color:#163c2f;
+  border:2px solid var(--gold); border-radius:18px;
+  box-shadow:0 5px 14px #001c1666;
+  font:clamp(11px,3cqw,15px)/1.32 Arial,sans-serif;
+}
+.empty-message strong { color:#7d1532; font:700 clamp(20px,5cqw,26px) Georgia,serif; }
+.offer-navigation { position:absolute; top:77.5%; height:5.8%; left:7%; right:7%; display:flex;
+  justify-content:center; align-items:center; gap:2.5%; }
+.offer-navigation .nav-button,.qr-navigation .nav-button { padding:clamp(6px,1.8cqw,10px) clamp(9px,2.5cqw,15px);
+  font-size:clamp(11px,3.1cqw,15px); min-height:36px; }
+/* New full-size QR artwork kept 1:1; disclaimer is located only in its free lower area. */
+.btb-disclaimer {
+  position:absolute; top:86.55%; left:9%; right:9%; height:4.4%;
+  display:flex; justify-content:center; flex-direction:column; align-items:center;
+  text-align:center; color:#f9dfaa; gap:1px;
+  text-shadow:0 1px 3px #02160d9c;
+}
+.btb-disclaimer strong { font:700 clamp(10px,3cqw,14px)/1.02 Georgia,serif; }
+.btb-disclaimer span { font:clamp(8px,2.15cqw,11px)/1.07 Arial,Helvetica,sans-serif; }
+.qr-navigation { position:absolute; top:92%; left:6%; right:6%; height:5.9%; display:flex;
+  justify-content:center; gap:3%; align-items:center; }
+.visually-hidden { position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
+/* For unusually low available browser heights, prioritise navigation and readable labels. */
+@container (max-height: 610px) {
+ .card-region.count-3 { top:21.5%; height:54%; }
+ .offer-navigation { top:78%; }
+}
+/* Premium treatment for the featured daily offer: a compact, better-proportioned panel. */
+.card-region.count-1 { top:27%; height:32.5%; }
+.count-1 .offer-card { grid-template-columns:33% minmax(0,1fr); border-width:2.5px; }
+.count-1 .decoration { width:125%; max-height:94%; }
+.count-1 .card-content { gap:clamp(4px,.75cqh,9px); }
+.count-1 .offer-title { font-size:clamp(18px,5.6cqw,28px); }
+.count-1 .offer-shop { font-size:clamp(12px,3.4cqw,18px); }
+.count-1 .offer-description,.count-1 .offer-deadline { font-size:clamp(10px,2.75cqw,14px); }
+.count-1 .card-bottom { gap:6px; }
+.count-1 .email-button { font-size:clamp(11px,2.9cqw,15px); padding:8px 13px; }
+.count-1 .offer-tag { font-size:clamp(9px,2.5cqw,13px); }
+.count-1 + .offer-navigation { top:66.5%; }
+/* Delicate internal divider, referencing the printed gold motif of the supplied examples. */
+.offer-card.commerciale .offer-shop { border-bottom:1px solid #cb9a5590; padding-bottom:4px; }
+
+/* ===============================================
+   Page QR spéciale présentation BtB.
+   Visuel original à encadré libre, sans retouche :
+   les 2 textes restent indépendants et accessibles.
+   1 écran fixe ; pas de défilement.
+   =============================================== */
+.qr-screen .stage {
+  width:max(100vw, 56.25dvh);
+  height:100dvh;
+  max-width:none;
+  aspect-ratio:864 / 1536;
+}
+.qr-screen .poster { width:100%;height:100%;object-fit:fill; }
+.qr-promo-ribbon {
+  position:absolute;top:53.2%;left:35%;right:9%;height:10.3%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:clamp(2px,.28cqh,4px);padding:1% 0;
+  text-align:center;color:#ffebc4;
+  text-shadow:0 1px 2px rgba(43,3,13,.75);
+  font-family:Georgia,serif;
+}
+.qr-promo-ribbon strong {
+  font-size:clamp(12px,3.15cqw,18px);
+  font-weight:700;line-height:1.07;
+}
+.qr-promo-ribbon span {
+  font-family:Arial,Helvetica,sans-serif;
+  font-size:clamp(9px,2.4cqw,13px);
+  line-height:1.1;
+}
+.qr-merchant-message {
+  position:absolute;left:12%;right:12%;top:65.2%;height:8.6%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:clamp(2px,.24cqh,4px);
+  text-align:center;color:#fff3d4;
+  text-shadow:0 1px 2px #061c12bb;
+  font-family:Georgia,serif;
+}
+.qr-merchant-message strong {
+  font-size:clamp(13px,3.2cqw,17px);line-height:1.05;
+  color:#f0ce8b;
+}
+.qr-merchant-message span {
+  font-family:Arial,Helvetica,sans-serif;
+  font-size:clamp(10px,2.28cqw,13px);line-height:1.18;
+}
+.qr-merchant-message small {
+  font-style:italic;font-size:clamp(9px,2.08cqw,11px);line-height:1.05;
+  color:#ffdf9f;
+}
+.qr-screen .qr-navigation {
+  position:absolute;top:88.4%;left:14%;right:14%;height:6.6%;
+  display:flex;justify-content:center;align-items:center;gap:3%;
+}
+.qr-screen .qr-navigation .nav-button {
+  padding:clamp(7px,1.8cqw,11px) clamp(10px,2.6cqw,17px);
+  min-height:38px;font-size:clamp(11px,2.9cqw,15px);
+}
+
+/* ================================================================
+   Mise en page mobile fluide : même logique que ChatGPT.
+   Pleine largeur ; défilement naturel uniquement lorsque nécessaire.
+   Les images originales ne sont ni redessinées ni étirées.
+   ================================================================ */
+html,body { width:100%;height:auto;min-height:100%;margin:0;overflow-x:hidden;overflow-y:auto; }
+html { scroll-behavior:auto;-webkit-text-size-adjust:100%; }
+body { background:#063729; overscroll-behavior-y:contain; }
+#application { width:100%;height:auto;min-height:100svh;overflow:visible; }
+.screen {
+  position:relative;inset:auto;width:100%;min-height:100svh;
+  overflow:visible;display:flex;align-items:flex-start;justify-content:center;
+  background:linear-gradient(90deg,#032a1f,#0b513c 50%,#032a1f);
+}
+.screen::before {position:fixed;inset:0;transform:none;filter:blur(20px) brightness(.38);background-size:cover;z-index:-1;}
+.stage {
+  position:relative;width:100%;max-width:560px;height:auto;
+  aspect-ratio:1170/2532;flex:0 0 auto;overflow:hidden;
+}
+.poster {width:100%;height:100%;object-fit:contain;}
+.home-screen .stage,.christmas-screen .stage { width:100%;max-width:560px; }
+/* Le visuel d'accueil prend exactement la largeur du téléphone. Un petit
+   iPhone peut défiler au lieu de rogner les textes ou le bouton. */
+.home-screen .home-hotspot { touch-action:manipulation; }
+/* QR : remplir la hauteur utile avec un cadrage des seules décorations latérales ;
+   les textes restent centrés. Son image n'est pas écrasée. */
+.qr-screen .stage { width:100%;max-width:560px;min-height:100svh;height:auto;aspect-ratio:864/1536; }
+.qr-screen .poster { object-fit:contain;width:100%;height:100%; }
+/* Sur les smartphones plus hauts que le format QR, le fond décoratif remplit
+   le reste du viewport, plutôt qu'une bande unie. */
+.qr-screen { background-image:linear-gradient(#063729bb,#063729e0),url('./assets/qr-presentation.webp');background-size:cover;background-position:center; }
+/* Nouveau gabarit : plus de cartes comprimées dans un rectangle de hauteur fixe. */
+.offers-screen { background-image:linear-gradient(#05251dad,#05251dad),url('./assets/fond-offres.webp');background-size:cover;background-position:center; }
+.fluid-sheet { width:100%;max-width:560px;min-height:100svh;display:flex;flex-direction:column;background:#073729;position:relative;isolation:isolate; }
+.offers-hero { flex:none;width:100%;aspect-ratio:2/1;position:relative;background:url('./assets/fond-offres.webp') top center / 100% auto no-repeat; }
+.calendar-date-fluid {
+ position:absolute;top:68.6%;left:20%;width:60%;height:15%;display:flex;align-items:center;justify-content:center;
+ font:700 clamp(11px,3.3vw,18px)/1.1 Arial,Helvetica,sans-serif;color:#62421a;text-transform:capitalize;text-align:center;
+}
+.offers-main { position:relative;isolation:isolate;flex:1;display:flex;flex-direction:column;gap:15px;justify-content:flex-start;padding:6px 18px 28px;
+ background:radial-gradient(ellipse at center,#0b593e,#06412f 77%,#032a1e);
+}
+.offers-main::before,.offers-main::after {content:'';position:absolute;z-index:-1;width:22%;height:58%;opacity:.22;pointer-events:none;background-repeat:no-repeat;background-size:contain;}
+.offers-main::before {left:-5%;top:2%;background-image:url('./assets/deco1.webp');}
+.offers-main::after {right:-5%;bottom:2%;background-image:url('./assets/deco3.webp');}
+.fluid-cards {display:flex;flex-direction:column;gap:14px;width:100%;}
+.fluid-cards .offer-card {
+ flex:none;min-height:156px;display:grid;grid-template-columns:25% minmax(0,1fr);
+ border:2px solid #d8b374;border-radius:18px;
+ background:linear-gradient(145deg,#fffaf0,#f8ebd6 77%,#e7d2ae);
+ box-shadow:0 7px 16px #011f187d,0 0 0 1px #fff9dc,inset 0 0 0 2px #fff9f1;
+}
+.fluid-cards.count-1 .offer-card {min-height:245px;grid-template-columns:29% minmax(0,1fr);}
+.fluid-cards.count-2 .offer-card {min-height:190px;}
+.fluid-cards.count-3 .offer-card {min-height:178px;}
+.fluid-cards .decoration {width:110%;max-height:170px;max-width:100%;height:auto;object-fit:contain;}
+.fluid-cards.count-1 .decoration {max-height:210px;}
+.fluid-cards .card-content,.fluid-cards.count-3 .card-content,.fluid-cards.count-1 .card-content {
+ height:auto;gap:5px;justify-content:center;padding:14px 12px 14px 0;
+}
+.fluid-cards .offer-tag,.fluid-cards.count-3 .offer-tag {font-size:clamp(9px,2.25vw,12px);letter-spacing:0;}
+.fluid-cards .offer-shop,.fluid-cards.count-3 .offer-shop,.fluid-cards.count-1 .offer-shop {font-size:clamp(11px,2.8vw,16px);}
+.fluid-cards .offer-title,.fluid-cards.count-3 .offer-title,.fluid-cards.count-1 .offer-title {font-size:clamp(17px,4.1vw,24px);line-height:1.08;}
+.fluid-cards .offer-description,.fluid-cards.count-1 .offer-description,.fluid-cards.count-3 .offer-description,.fluid-cards .offer-deadline {font-size:clamp(11px,2.68vw,14px);line-height:1.24;}
+.fluid-cards .offer-address,.fluid-cards.count-3 .offer-address {font-size:clamp(9px,2.3vw,12px);}
+.fluid-cards .copy-code,.fluid-cards.count-3 .copy-code,.fluid-cards .email-button {font-size:clamp(10px,2.7vw,13px);padding:7px 10px;min-height:30px;white-space:normal;}
+.fluid-cards .card-bottom {align-items:flex-start;gap:6px;flex-direction:column;}
+.fluid-cards .empty-message {min-height:220px;padding:22px;}
+.fluid-navigation {display:flex;gap:12px;justify-content:center;flex-wrap:wrap;padding:8px 2px;}
+.fluid-navigation .nav-button {font-size:clamp(13px,3.4vw,16px);min-height:42px;padding:9px 15px;}
+.offers-signature {flex:none;width:100%;aspect-ratio:3/1;background:url('./assets/fond-offres.webp') bottom center / 100% auto no-repeat;}
+@media (min-width:560px) {
+  .calendar-date-fluid {font-size:18px;}
+  .fluid-cards .offer-title,.fluid-cards.count-3 .offer-title,.fluid-cards.count-1 .offer-title {font-size:24px;}
+  .fluid-cards .offer-description,.fluid-cards.count-1 .offer-description,.fluid-cards.count-3 .offer-description {font-size:14px;}
+}
+@media (max-width:380px) {
+ .offers-main {padding:4px 12px 22px;}
+ .fluid-cards .offer-card {grid-template-columns:23% minmax(0,1fr);}
+ .fluid-cards.count-1 .offer-card {grid-template-columns:27% minmax(0,1fr);}
+ .fluid-cards .card-content,.fluid-cards.count-3 .card-content,.fluid-cards.count-1 .card-content {padding:12px 8px 12px 0;}
+}
+/* Final visual continuity: reuse the original side garlands, not an empty green bar. */
+.offers-main {
+  background:
+    linear-gradient(90deg,#052c2099,#052c2015 22%,#052c2015 78%,#052c2099),
+    url('./assets/fond-offres.webp') center center / 100% auto no-repeat,
+    radial-gradient(ellipse at center,#0b593e,#043020);
+}
+.offers-main::before,.offers-main::after {display:none;}
+/* Use the QR illustration edge-to-edge; a narrow phone may crop ONLY outer edges. */
+.qr-screen .stage {width:100%;max-width:560px;height:100svh;min-height:100svh;aspect-ratio:auto;overflow:hidden;}
+.qr-screen .poster {position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;}
+.qr-screen .qr-navigation {top:92%;height:6.5%;}
+.qr-screen .qr-promo-ribbon {top:53.3%;height:9.5%;left:33%;right:6%;}
+.qr-screen .qr-merchant-message {top:65%;height:8%;left:11%;right:11%;}
+.qr-screen .qr-merchant-message strong {font-size:clamp(12px,3.25cqw,18px);}
+.qr-screen .qr-merchant-message span {font-size:clamp(9px,2.5cqw,12px);}
+.qr-screen .qr-merchant-message small {font-size:clamp(8px,2.25cqw,11px);}
+/* Prevent the original printed date/footer from ghosting inside the middle scenery. */
+.offers-main {
+  background:
+    linear-gradient(to bottom,#063729 0%,#06372900 17%,#06372900 76%,#063729 100%),
+    linear-gradient(90deg,#052c2099,#052c2015 22%,#052c2015 78%,#052c2099),
+    url('./assets/fond-offres.webp') center center / 100% auto no-repeat,
+    radial-gradient(ellipse at center,#0b593e,#043020);
+}

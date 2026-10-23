@@ -1,219 +1,151 @@
-:root { --wine:#780b2a; --gold:#d7ae69; --cream:#fff7e8; --ink:#173d2d; }
-* { box-sizing:border-box; }
-html,body,#application { width:100%; height:100%; height:100dvh; margin:0; overflow:hidden; }
-html { -webkit-text-size-adjust:100%; }
-body { background:#063729; color:var(--cream); font-family:Georgia,serif; }
+/* Noël BtB – 23 octobre 2026
+ * Trois pages cohérentes, sans parallaxe, sans flou latéral, sans défilement.
+ * Tous les éléments interactifs utilisent le même repère 9:16 que les affiches.
+ */
+:root {
+  --wine:#790e2d; --wine-dark:#5f071e;
+  --gold:#d6ae69; --cream:#fff6e4; --ink:#173c2c;
+}
+*,*::before,*::after {box-sizing:border-box}
+html { -webkit-text-size-adjust:100%; background:#042d22 }
+html,body,#application { width:100%;height:100%;height:100dvh;margin:0;overflow:hidden; }
+body { color:var(--cream); background:#042d22; font-family:Georgia,'Times New Roman',serif; }
 button,a { -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
-button { cursor:pointer; }
-button:focus-visible,a:focus-visible { outline:3px solid #fff1b0; outline-offset:3px; }
+button {cursor:pointer}
+button:focus-visible,a:focus-visible {outline:3px solid #fff4bd;outline-offset:2px}
 .screen {
-  position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
-  overflow:hidden; isolation:isolate; background:#063729; touch-action:manipulation;
+  position:fixed;inset:0;overflow:hidden;background:#042d22;
+  display:grid;place-items:center;isolation:isolate;
+  overscroll-behavior:none;touch-action:manipulation;
 }
-/* On a short/wide phone, extend the SAME scene behind the centred original art;
-   the original artwork, captions and CTA never get cropped or distorted. */
-.screen::before {
-  content:""; position:absolute; inset:-24px; z-index:-1;
-  background-image:var(--bg); background-position:center; background-size:cover;
-  filter:blur(12px) brightness(.52);
-}
+/* L'affiche entière est dimensionnée en COVER : aucun fond latéral artificiel.
+ * Si l'écran est plus haut, seuls les bords de l'affiche sont rognés.
+ * Sur les écrans plus larges que 9:16, un léger rognage vertical est inévitable.
+ */
 .stage {
-  position:relative; flex:none; height:100%; width:auto;
-  aspect-ratio:1170/2532; max-width:none; overflow:hidden;
-  container-type:size; background:#043326;
+  position:relative;flex:none;
+  height:max(100dvh, calc(100dvw * 16 / 9));
+  width:auto;aspect-ratio:9 / 16;
+  overflow:hidden;container-type:size;
+  background:#063729;
 }
-.poster { display:block; width:100%; height:100%; object-fit:fill; pointer-events:none; user-select:none; }
+.poster {
+  display:block;width:100%;height:100%;object-fit:cover;object-position:center;
+  pointer-events:none;user-select:none;-webkit-user-drag:none;
+}
+.screen,.stage,.poster,.offer-card,.decoration,.nav-button,.home-hotspot {
+  animation:none!important;transition:none!important;
+}
+/* Lien invisible qui suit EXACTEMENT le bouton déjà imprimé sur l'image d'accueil 9:16. */
 .home-hotspot {
-  position:absolute; left:16.8%; width:66.4%; top:83.6%; height:6.5%;
-  border:0; border-radius:100px; background:transparent;
+  position:absolute;left:16%;width:68%;top:83.4%;height:8.1%;
+  background:transparent;border:0;border-radius:99px;z-index:5;
 }
 .nav-button,.copy-code,.email-button {
-  display:inline-flex; align-items:center; justify-content:center; text-align:center;
-  border:1.5px solid #e1b974; border-radius:40px; color:#fff;
-  background:linear-gradient(160deg,#9b1637,#710922 75%);
-  box-shadow:0 2px 6px #09261c70, inset 0 1px 0 #f9d2a057;
-  font-family:Arial,Helvetica,sans-serif; font-weight:700; text-decoration:none;
-  line-height:1.07; white-space:nowrap;
+  display:inline-flex;justify-content:center;align-items:center;text-align:center;
+  font-family:Arial,Helvetica,sans-serif;font-weight:700;line-height:1.13;
+  text-decoration:none;color:#fff;border:1.5px solid #e6c17b;
+  border-radius:80px;background:var(--wine);
+  box-shadow:0 2px 5px #082b2166,inset 0 1px 0 #fff3cb45;
+  white-space:normal;
 }
-/* Gold date cartouche is ALREADY drawn on the uploaded offers artwork. */
+.nav-button { min-height:34px; padding:7px 12px;font-size:clamp(10px,3.1cqw,16px);white-space:nowrap; }
+.offer-navigation,.qr-navigation {position:absolute;z-index:5;display:flex;align-items:center;justify-content:center;gap:3%;}
+.offer-navigation {left:7%;right:7%;top:77.1%;height:6.5%;}
+.offer-navigation .nav-button:first-child {min-width:25%;}
+.offer-navigation .nav-button:last-child {min-width:45%;}
+/* En-tête des offres : la bande dorée fait déjà partie du visuel, on n'en recrée pas une. */
 .calendar-date {
-  position:absolute; top:16.75%; height:2.95%; left:19%; right:19%;
-  display:flex; align-items:center; justify-content:center;
-  font:700 clamp(9px,3.05cqw,15px)/1 Arial,Helvetica,sans-serif;
-  text-transform:capitalize; color:#62421a; text-align:center; white-space:nowrap;
+  position:absolute;top:17.1%;height:3.2%;left:19%;right:19%;
+  display:flex;align-items:center;justify-content:center;
+  color:#513915;font:700 clamp(10px,3.15cqw,17px)/1 Arial,Helvetica,sans-serif;
+  white-space:nowrap;text-align:center;text-transform:capitalize;
 }
+/* Cartes adaptatives aux quantités : aucun emplacement blanc inutilisé. */
 .card-region {
-  position:absolute; top:22.2%; left:10.5%; right:10.5%; height:52%;
-  display:flex; flex-direction:column; gap:1.7%; justify-content:center; align-items:stretch;
+  /* Marges calculées sur la largeur réellement visible, même lorsque les côtés sont rognés. */
+  --card-gutter:max(6%, calc((100cqw - 100vw)/2 + 5vw));
+  position:absolute;left:var(--card-gutter);right:var(--card-gutter);top:22.3%;height:52%;
+  display:flex;flex-direction:column;align-items:stretch;justify-content:center;
+  gap:1.5%;min-height:0;
 }
+.card-region.count-1 {top:29%;height:32%;}
+.card-region.count-2 {top:24%;height:45%;gap:2%;}
+.card-region.count-3 {top:22%;height:54%;gap:1.15%;}
+.card-region.count-0 {top:27%;height:37%;}
 .offer-card {
-  flex:1 1 0; min-height:0; position:relative;
-  display:grid; grid-template-columns:27% minmax(0,1fr); align-items:center;
-  overflow:hidden; color:var(--ink);
-  border:2px solid #cca46a; border-radius:clamp(11px,3.6cqw,22px);
-  background:linear-gradient(135deg,#fffaf1 0%,#faf0de 72%,#efdbb5 100%);
-  box-shadow:0 4px 10px #011e1766,0 0 0 1px #fff6e9,inset 0 0 0 2px #fff7e7;
+  position:relative;flex:1 1 0;min-height:0;display:grid;
+  grid-template-columns:23% minmax(0,1fr);align-items:center;
+  overflow:hidden;border:2px solid #c9a261;
+  border-radius:clamp(14px,4.3cqw,23px);
+  color:var(--ink);background:linear-gradient(145deg,#fffaf0 0%,#f9f0df 67%,#f1dfc1 100%);
+  box-shadow:0 5px 14px #02191055,inset 0 0 0 3px #fff9ed;
 }
-.offer-card::after {
-  content:"";pointer-events:none;position:absolute;inset:6px;
-  border:1px solid #bf934f45;border-radius:inherit;
+.offer-card::after {content:"";pointer-events:none;position:absolute;inset:6px;border:1px solid #d4b98e9e;border-radius:clamp(9px,3cqw,17px);}
+/* Décoration dans sa propre colonne, ancrée en bas à gauche, sans chevaucher les mots. */
+.decoration {
+  display:block;width:94%;max-height:72%;height:auto;object-fit:contain;
+  justify-self:start;align-self:end;margin:0 0 8% 4%;
+  filter:drop-shadow(0 2px 3px #5d412866);pointer-events:none;
 }
-.decoration { display:block; width:109%; max-height:85%; height:auto; object-fit:contain;
-  place-self:center; filter:drop-shadow(2px 3px 2px #69491b40); pointer-events:none; }
 .card-content {
-  min-width:0; height:100%; display:flex; flex-direction:column;
-  justify-content:center; align-items:flex-start; gap:clamp(1px,.42cqh,5px);
-  padding:clamp(4px,1.1cqw,12px) clamp(7px,1.8cqw,12px) clamp(4px,1cqw,12px) 1px;
-  font-family:Arial,Helvetica,sans-serif;
+  display:flex;flex-direction:column;justify-content:center;align-items:flex-start;
+  min-width:0;min-height:0;height:100%;gap:clamp(2px,.45cqh,6px);
+  padding:5px clamp(8px,2.3cqw,14px) 5px 1px;
+  font-family:Arial,Helvetica,sans-serif;overflow-wrap:anywhere;
 }
-.offer-tag {
-  color:#8b2743; font-size:clamp(8px,2.45cqw,12px);
-  font-weight:800; letter-spacing:.025em;
-}
-.offer-shop { color:#31452f; font-weight:800; font-size:clamp(10px,3.15cqw,15px); line-height:1.06; }
-.offer-title {
-  margin:0; color:#790c2c; font:700 clamp(14px,4.4cqw,23px)/1.05 Georgia,serif;
-}
-.offer-description,.offer-deadline { margin:0; font-size:clamp(9px,2.6cqw,13px); line-height:1.22; }
-.offer-deadline { font-weight:700; color:#76502c; }
-.card-bottom { width:100%; display:flex; align-items:center; gap:5px; justify-content:space-between; flex-wrap:wrap; }
-.offer-address { font-size:clamp(8px,2.3cqw,11px); line-height:1.1; color:#6c583e; }
-.copy-code,.email-button {
-  border-width:1px; padding:clamp(4px,1.05cqw,7px) clamp(7px,2.0cqw,12px);
-  font-size:clamp(9px,2.6cqw,13px); min-height:25px;
-}
-.card-region.count-1 { top:25%; height:41%; left:9%; right:9%; }
-.count-1 .offer-card { grid-template-columns:33% minmax(0,1fr); }
-.count-1 .decoration { max-height:81%; }
-.count-1 .offer-tag { font-size:clamp(9px,2.5cqw,14px); }
-.count-1 .offer-shop { font-size:clamp(12px,3.6cqw,19px); }
-.count-1 .offer-title { font-size:clamp(17px,5cqw,27px); }
-.count-1 .offer-description,.count-1 .offer-deadline { font-size:clamp(10px,2.8cqw,15px); }
-.card-region.count-2 { top:23.5%; height:46%; gap:2%; }
-.count-2 .offer-card { grid-template-columns:27% minmax(0,1fr); }
-.card-region.count-3 { top:21.7%; height:53%; gap:1.25%; }
-.count-3 .offer-card { grid-template-columns:24% minmax(0,1fr); border-width:1.5px; border-radius:11px; }
-.count-3 .decoration { width:113%; max-height:80%; }
-.count-3 .card-content { gap:clamp(1px,.23cqh,2px); padding:3px 6px 3px 0; }
-.count-3 .offer-tag { font-size:clamp(7px,1.95cqw,9px); }
-.count-3 .offer-shop { font-size:clamp(8.7px,2.6cqw,11px); }
-.count-3 .offer-title { font-size:clamp(12px,3.38cqw,15px); }
-.count-3 .offer-description { font-size:clamp(8px,2.15cqw,10px); line-height:1.12; }
-.count-3 .offer-address { font-size:clamp(7px,2cqw,9px); }
-.count-3 .copy-code { font-size:clamp(8px,2.0cqw,10px); min-height:18px; padding:3px 6px; }
-.count-3 .card-bottom { gap:2px; }
-.card-region.count-0 { top:27%;height:36%;left:11%;right:11%; }
-.empty-message {
-  width:100%; display:flex; flex-direction:column; align-items:center; justify-content:center;
-  gap:clamp(8px,2cqh,17px); padding:5%; text-align:center;
-  background:linear-gradient(145deg,#fffaf0,#f6e7cc);color:#163c2f;
-  border:2px solid var(--gold); border-radius:18px;
-  box-shadow:0 5px 14px #001c1666;
-  font:clamp(11px,3cqw,15px)/1.32 Arial,sans-serif;
-}
-.empty-message strong { color:#7d1532; font:700 clamp(20px,5cqw,26px) Georgia,serif; }
-.offer-navigation { position:absolute; top:77.5%; height:5.8%; left:7%; right:7%; display:flex;
-  justify-content:center; align-items:center; gap:2.5%; }
-.offer-navigation .nav-button,.qr-navigation .nav-button { padding:clamp(6px,1.8cqw,10px) clamp(9px,2.5cqw,15px);
-  font-size:clamp(11px,3.1cqw,15px); min-height:36px; }
-/* New full-size QR artwork kept 1:1; disclaimer is located only in its free lower area. */
-.btb-disclaimer {
-  position:absolute; top:86.55%; left:9%; right:9%; height:4.4%;
-  display:flex; justify-content:center; flex-direction:column; align-items:center;
-  text-align:center; color:#f9dfaa; gap:1px;
-  text-shadow:0 1px 3px #02160d9c;
-}
-.btb-disclaimer strong { font:700 clamp(10px,3cqw,14px)/1.02 Georgia,serif; }
-.btb-disclaimer span { font:clamp(8px,2.15cqw,11px)/1.07 Arial,Helvetica,sans-serif; }
-.qr-navigation { position:absolute; top:92%; left:6%; right:6%; height:5.9%; display:flex;
-  justify-content:center; gap:3%; align-items:center; }
-.visually-hidden { position:absolute;width:1px;height:1px;padding:0;margin:-1px;
-  overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
-/* For unusually low available browser heights, prioritise navigation and readable labels. */
-@container (max-height: 610px) {
- .card-region.count-3 { top:21.5%; height:54%; }
- .offer-navigation { top:78%; }
-}
-/* Premium treatment for the featured daily offer: a compact, better-proportioned panel. */
-.card-region.count-1 { top:27%; height:32.5%; }
-.count-1 .offer-card { grid-template-columns:33% minmax(0,1fr); border-width:2.5px; }
-.count-1 .decoration { width:125%; max-height:94%; }
-.count-1 .card-content { gap:clamp(4px,.75cqh,9px); }
-.count-1 .offer-title { font-size:clamp(18px,5.6cqw,28px); }
-.count-1 .offer-shop { font-size:clamp(12px,3.4cqw,18px); }
-.count-1 .offer-description,.count-1 .offer-deadline { font-size:clamp(10px,2.75cqw,14px); }
-.count-1 .card-bottom { gap:6px; }
-.count-1 .email-button { font-size:clamp(11px,2.9cqw,15px); padding:8px 13px; }
-.count-1 .offer-tag { font-size:clamp(9px,2.5cqw,13px); }
-.count-1 + .offer-navigation { top:66.5%; }
-/* Delicate internal divider, referencing the printed gold motif of the supplied examples. */
-.offer-card.commerciale .offer-shop { border-bottom:1px solid #cb9a5590; padding-bottom:4px; }
-
-/* ===============================================
-   Page QR spéciale présentation BtB.
-   Visuel original à encadré libre, sans retouche :
-   les 2 textes restent indépendants et accessibles.
-   1 écran fixe ; pas de défilement.
-   =============================================== */
-.qr-screen .stage {
-  height:100%; width:auto; max-width:none; aspect-ratio:864 / 1536;
-}
-.qr-screen .poster { display:block; width:100%;height:100%;object-fit:contain; }
+.offer-tag {font-size:clamp(8px,2.35cqw,12px);line-height:1.15;font-weight:800;letter-spacing:.01em;color:#882343;}
+.offer-shop {font-size:clamp(10px,3.15cqw,17px);font-weight:800;line-height:1.13;color:#264935;}
+.offer-title {font:700 clamp(14px,4.1cqw,23px)/1.05 Georgia,'Times New Roman',serif;color:#7c1030;margin:0;}
+.offer-description,.offer-deadline {font-size:clamp(9px,2.55cqw,13px);line-height:1.2;margin:0;}
+.offer-deadline {color:#76512b;font-weight:700;}
+.card-bottom {width:100%;display:flex;align-items:center;justify-content:space-between;gap:5px;flex-wrap:wrap;}
+.offer-address {font-size:clamp(8px,2.25cqw,11px);line-height:1.18;color:#6d5a41;}
+.copy-code,.email-button {padding:5px 10px;min-height:29px;font-size:clamp(9px,2.6cqw,13px);border-width:1px;white-space:nowrap;}
+.count-1 .offer-card {grid-template-columns:27% minmax(0,1fr);}
+.count-1 .decoration {width:95%;max-height:56%;margin-bottom:11%;}
+.count-1 .offer-shop {font-size:clamp(12px,3.6cqw,19px)}
+.count-1 .offer-title {font-size:clamp(17px,5cqw,27px)}
+.count-1 .offer-description,.count-1 .offer-deadline {font-size:clamp(10px,2.7cqw,14px)}
+.count-1 .card-content {gap:clamp(4px,.7cqh,9px)}
+.count-2 .offer-card {grid-template-columns:23% minmax(0,1fr);}
+.count-2 .decoration {max-height:69%;width:92%;}
+.count-2 .card-content {gap:clamp(2px,.3cqh,4px)}
+.count-2 .offer-title {font-size:clamp(14px,3.9cqw,20px)}
+.count-3 .offer-card {grid-template-columns:18% minmax(0,1fr);border-width:1.5px;border-radius:12px;}
+.count-3 .offer-card::after {inset:3px;border-radius:9px;}
+.count-3 .decoration {max-height:62%;width:90%;margin-bottom:9%;}
+.count-3 .card-content {gap:1px;padding:3px 7px 3px 0;}
+.count-3 .offer-tag {font-size:clamp(7px,1.95cqw,9px)}
+.count-3 .offer-shop {font-size:clamp(9px,2.6cqw,12px)}
+.count-3 .offer-title {font-size:clamp(11px,2.9cqw,14px);line-height:1.08;}
+.count-3 .offer-description {display:none;} /* Les offres fictives portent déjà leur avertissement explicite. */
+.count-3 .offer-address {font-size:clamp(7px,2cqw,10px)}
+.count-3 .copy-code {font-size:clamp(8px,2.15cqw,11px);min-height:23px;padding:3px 7px}
+.count-3 .card-bottom {gap:2px;flex-direction:column;align-items:flex-start;}
+.empty-message {display:flex;flex-direction:column;align-items:center;justify-content:center;
+ gap:clamp(8px,1.4cqh,16px);padding:6%;text-align:center;border:2px solid var(--gold);
+ border-radius:20px;background:#fff3df;color:#1b3b2c;font:clamp(11px,3cqw,15px)/1.3 Arial,sans-serif;
+ box-shadow:0 6px 16px #001d1459;}
+.empty-message strong {font:700 clamp(18px,5.2cqw,26px)/1.1 Georgia,serif;color:var(--wine)}
+/* QR : la version à cartouche vide est fournie. Textes ajoutés en HTML seulement. */
 .qr-promo-ribbon {
-  position:absolute;top:53.2%;left:35%;right:9%;height:10.3%;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:clamp(2px,.28cqh,4px);padding:1% 0;
-  text-align:center;color:#ffebc4;
-  text-shadow:0 1px 2px rgba(43,3,13,.75);
-  font-family:Georgia,serif;
+ position:absolute;top:53.0%;left:34%;right:9%;height:10.8%;
+ display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+ gap:clamp(2px,.3cqh,5px);color:#ffe7bb;text-shadow:0 1px 2px #330914;
 }
-.qr-promo-ribbon strong {
-  font-size:clamp(12px,3.15cqw,18px);
-  font-weight:700;line-height:1.07;
-}
-.qr-promo-ribbon span {
-  font-family:Arial,Helvetica,sans-serif;
-  font-size:clamp(9px,2.4cqw,13px);
-  line-height:1.1;
-}
+.qr-promo-ribbon strong {font:700 clamp(12px,3.25cqw,17px)/1.04 Georgia,serif;}
+.qr-promo-ribbon span {font:clamp(9px,2.35cqw,12px)/1.08 Arial,sans-serif;}
 .qr-merchant-message {
-  position:absolute;left:12%;right:12%;top:65.2%;height:8.6%;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:clamp(2px,.24cqh,4px);
-  text-align:center;color:#fff3d4;
-  text-shadow:0 1px 2px #061c12bb;
-  font-family:Georgia,serif;
+ position:absolute;left:11%;right:11%;top:65.2%;height:8%;display:flex;
+ flex-direction:column;justify-content:center;align-items:center;text-align:center;
+ gap:clamp(2px,.25cqh,5px);color:#fff1d3;text-shadow:0 1px 2px #00180bc9;
 }
-.qr-merchant-message strong {
-  font-size:clamp(13px,3.2cqw,17px);line-height:1.05;
-  color:#f0ce8b;
-}
-.qr-merchant-message span {
-  font-family:Arial,Helvetica,sans-serif;
-  font-size:clamp(10px,2.28cqw,13px);line-height:1.18;
-}
-.qr-merchant-message small {
-  font-style:italic;font-size:clamp(9px,2.08cqw,11px);line-height:1.05;
-  color:#ffdf9f;
-}
-.qr-screen .qr-navigation {
-  position:absolute;top:88.4%;left:14%;right:14%;height:6.6%;
-  display:flex;justify-content:center;align-items:center;gap:3%;
-}
-.qr-screen .qr-navigation .nav-button {
-  padding:clamp(7px,1.8cqw,11px) clamp(10px,2.6cqw,17px);
-  min-height:38px;font-size:clamp(11px,2.9cqw,15px);
-}
-
-
-/* 22 octobre 2026 : présentation à visuels FIXES, aucune transition. */
-html,body,#application { height:100%; height:100dvh; overflow:hidden; overscroll-behavior:none; }
-.screen,.stage,.poster,.nav-button,.offer-card,.decoration,.home-hotspot {
-  animation:none!important; transition:none!important;
-}
-.stage { transform:none!important; }
-.screen::before { animation:none!important; transition:none!important; transform:none!important; }
-/* Le repère tactile suit toujours le bouton imprimé dans l’image d’accueil. */
-.home-hotspot { z-index:4; touch-action:manipulation; }
-/* Les actions restent lisibles sur petits iPhone, même avec trois offres. */
-.offer-navigation,.qr-navigation { z-index:4; }
+.qr-merchant-message strong {font:700 clamp(14px,3.4cqw,18px)/1.1 Georgia,serif;color:#efd19a;}
+.qr-merchant-message span {font:clamp(10px,2.46cqw,13px)/1.15 Arial,sans-serif;}
+.qr-merchant-message small {font:italic clamp(9px,2.15cqw,11px)/1.1 Georgia,serif;color:#ffe5b7;}
+.qr-navigation {top:88%;height:6.4%;left:12%;right:12%;}
+.qr-navigation .nav-button {min-height:35px;padding:7px clamp(9px,2.5cqw,15px);font-size:clamp(11px,3cqw,15px);}
+.visually-hidden {position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+ overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+@media (prefers-reduced-motion: reduce) {*,*::before,*::after {animation:none!important;transition:none!important;}}

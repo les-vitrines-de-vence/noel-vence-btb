@@ -91,12 +91,12 @@
       // Les mentions commerciales sont des éléments HTML, pas du texte gravé dans l’image.
       root.innerHTML = layout('qr-screen', 'qr-presentation', `
         <div class="qr-promo-ribbon" aria-label="Un QR code, plusieurs promotions">
-          <strong>Un seul QR code, des offres renouvelées chaque jour !</strong>
-          <span>Vos clients scannent le même QR et découvrent une nouvelle surprise.</span>
+          <strong><span class="qr-line">Un seul QR code, des offres</span><span class="qr-line">renouvelées chaque jour !</span></strong>
+          <span class="qr-promo-detail"><span class="qr-line">Vos clients scannent le même QR</span><span class="qr-line">et découvrent une nouvelle surprise.</span></span>
         </div>
         <div class="qr-merchant-message" aria-label="Exemple d’utilisation pour les commerçants">
           <strong>Et pour votre commerce ?</strong>
-          <span>Une seule affiche sur votre vitrine ou vos flyers. Une nouvelle promotion chaque jour.</span>
+          <span class="qr-merchant-detail"><span class="qr-line">Un seul QR code sur votre vitrine</span><span class="qr-line">ou vos flyers.</span><span class="qr-line">Une nouvelle promotion chaque jour.</span></span>
           <small>Une démonstration de Papeterie Multi-Services.</small>
         </div>
         <nav class="qr-navigation" aria-label="Navigation">${navButton('offres', 'Retour aux offres')}${navButton('accueil', 'Accueil')}</nav>
